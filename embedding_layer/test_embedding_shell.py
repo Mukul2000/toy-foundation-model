@@ -2,7 +2,7 @@ import pytest
 import torch
 
 from config import ModelArgs
-from embedding.embedding_shell import TransformerEmbeddingShell
+from embedding_layer.embedding_shell import TransformerEmbeddingShell
 
 
 def test_embedding_shell_initialization():
