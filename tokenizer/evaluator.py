@@ -68,7 +68,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--model-dir",
         type=str,
-        default="./english_tokenizer",
+        default="./tokenizer/tokenizer_config",
         help="Directory of the trained tokenizer",
     )
     parser.add_argument(

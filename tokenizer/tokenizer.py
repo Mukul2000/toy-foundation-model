@@ -1,5 +1,6 @@
 import argparse
 import os
+import sys
 from typing import Iterable, List, Optional, Union
 
 from datasets import load_dataset
@@ -10,6 +11,10 @@ from tokenizers.pre_tokenizers import ByteLevel
 from tokenizers.processors import TemplateProcessing
 from tokenizers.trainers import BpeTrainer
 from transformers import PreTrainedTokenizerFast
+
+# Add parent directory to sys.path to resolve imports when running as a direct script
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from config import ModelArgs
 
 
 class Tokenizer:
@@ -25,7 +30,7 @@ class Tokenizer:
     def train(
         self,
         texts: Union[Iterable[str], List[str]],
-        vocab_size: int = 16384,
+        vocab_size: int = ModelArgs.vocab_size,
         save_dir: Optional[str] = None,
     ):
         """
@@ -157,30 +162,15 @@ if __name__ == "__main__":
         description="Train custom BPE tokenizer on Wikipedia"
     )
     parser.add_argument(
-        "--vocab-size",
-        type=int,
-        default=16384,
-        help="Vocabulary size for the BPE tokenizer",
-    )
-    parser.add_argument(
-        "--save-dir",
-        type=str,
-        default="./english_tokenizer",
-        help="Directory to save the tokenizer",
-    )
-    parser.add_argument(
-        "--vocab-file",
-        type=str,
-        default="./english_tokenizer/vocab.txt",
-        help="Path to save the plain text vocabulary file",
-    )
-    parser.add_argument(
         "--num-samples",
         type=int,
         default=50000,
         help="Number of Wikipedia articles to train on (None for all)",
     )
     args = parser.parse_args()
+
+    save_dir = "./tokenizer/tokenizer_config"
+    vocab_file = "./tokenizer/tokenizer_config/vocab.txt"
 
     dataset_name = "wikimedia/wikipedia"
     dataset_config = "20231101.en"
@@ -204,10 +194,10 @@ if __name__ == "__main__":
     tok = Tokenizer()
 
     # Train it!
-    tok.train(iterator(), vocab_size=args.vocab_size, save_dir=args.save_dir)
+    tok.train(iterator(), vocab_size=ModelArgs.vocab_size, save_dir=save_dir)
 
     # Save vocabulary file
-    tok.save_vocabulary(args.vocab_file)
+    tok.save_vocabulary(vocab_file)
 
     # Simple demonstration of encode / decode
     print("\n--- Tokenizer Demo ---")
