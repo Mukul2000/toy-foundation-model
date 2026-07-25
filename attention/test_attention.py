@@ -1,8 +1,9 @@
+
 import pytest
 import torch
 
-from config import ModelArgs
 from attention import MultiHeadSelfAttention
+from config import ModelArgs
 
 
 def test_attention_shape():

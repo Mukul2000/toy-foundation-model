@@ -1,5 +1,5 @@
 import torch
-import torch.nn as nn
+from torch import nn
 
 from config import ModelArgs
 
@@ -10,14 +10,14 @@ class RotaryEmbedding(nn.Module):
     Precomputes frequencies, handles half-rotation, and applies the rotation to tensors.
     """
 
-    def __init__(self, args: ModelArgs, theta: float = 10000.0):
+    def __init__(self, args: ModelArgs, base: float = 10000.0):
         super().__init__()
         assert args.dim % args.n_heads == 0, "dim must be divisible by n_heads"
         self.dim = args.dim // args.n_heads
         max_seq_len = args.max_seq_len
 
-        # Compute frequency bands: theta_i = 10000^(-2 * (i - 1) / dim)
-        inv_freq = 1.0 / (theta ** (torch.arange(0, self.dim, 2).float() / self.dim))
+        # Compute frequency bands: frequency_i = 1.0 / (base ** (2i / dim))
+        inv_freq = 1.0 / (base ** (torch.arange(0, self.dim, 2).float() / self.dim))
         self.register_buffer("inv_freq", inv_freq, persistent=False)
 
         # Precompute positions t from 0 to max_seq_len - 1
