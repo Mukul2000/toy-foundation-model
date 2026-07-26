@@ -2,7 +2,7 @@ import pytest
 import torch
 
 from config import ModelArgs
-from attention import RotaryEmbedding
+from transformer import RotaryEmbedding
 
 
 def test_rotate_half_correctness():

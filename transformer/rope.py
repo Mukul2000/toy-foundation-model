@@ -9,6 +9,9 @@ class RotaryEmbedding(nn.Module):
     Rotary Position Embeddings (RoPE).
     Precomputes frequencies, handles half-rotation, and applies the rotation to tensors.
     """
+    inv_freq: torch.Tensor
+    cos_cached: torch.Tensor
+    sin_cached: torch.Tensor
 
     def __init__(self, args: ModelArgs, base: float = 10000.0):
         super().__init__()

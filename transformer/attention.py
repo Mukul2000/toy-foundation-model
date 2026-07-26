@@ -1,13 +1,16 @@
 import math
+
 import torch
-import torch.nn as nn
 import torch.nn.functional as F
+from torch import nn
 
 from config import ModelArgs
 from .rope import RotaryEmbedding
 
 
 class MultiHeadSelfAttention(nn.Module):
+    causal_mask: torch.Tensor
+
     def __init__(self, args: ModelArgs):
         super().__init__()
         assert args.dim % args.n_heads == 0, "dim must be divisible by n_heads"
@@ -37,7 +40,7 @@ class MultiHeadSelfAttention(nn.Module):
         )
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
-        B, T, C = x.shape
+        B, T, _ = x.shape
 
         # Stage 2: Projections
         q, k, v = self.wq(x), self.wk(x), self.wv(x)

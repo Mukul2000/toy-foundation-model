@@ -2,7 +2,7 @@ import pytest
 import torch
 
 from config import ModelArgs
-from feedforward import FeedForward
+from transformer import FeedForward
 
 
 def test_feedforward_shape():

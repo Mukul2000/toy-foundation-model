@@ -2,7 +2,7 @@
 import pytest
 import torch
 
-from attention import MultiHeadSelfAttention
+from transformer import MultiHeadSelfAttention
 from config import ModelArgs
 
 
