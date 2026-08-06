@@ -19,6 +19,7 @@ class TransformerEmbeddingShell(nn.Module):
 
         # 2. The Output LM Head (projects hidden_dim back to vocab_size)
         # We set bias=False because we are tying weights with the embedding layer
+        # (batch size, vocab_size)
         self.lm_head = nn.Linear(self.hidden_dim, self.vocab_size, bias=False)
 
         # 3. Apply Weight Tying
@@ -52,6 +53,7 @@ class TransformerEmbeddingShell(nn.Module):
         """
         Step 3: Map final hidden states back to vocabulary logits
         Input shape:  (batch_size, seq_len, hidden_dim)
+        LM head shape: (hidden_dim, vocab_size)
         Output shape: (batch_size, seq_len, vocab_size)
         """
         return self.lm_head(hidden_states)
