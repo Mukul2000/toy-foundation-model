@@ -18,14 +18,14 @@ from config import ModelArgs
 
 
 class Tokenizer:
-    def __init__(self, model_dir: Optional[str] = None):
+    def __init__(self, tokenizer_config_dir: Optional[str] = None):
         """
         A wrapper class around Hugging Face's tokenizers for easy BPE training,
         encoding, and decoding.
         """
         self.tokenizer = None
-        if model_dir and os.path.exists(model_dir):
-            self.load(model_dir)
+        if tokenizer_config_dir and os.path.exists(tokenizer_config_dir):
+            self.load(tokenizer_config_dir)
 
     def train(
         self,
@@ -129,15 +129,15 @@ class Tokenizer:
         self.tokenizer.save_pretrained(save_dir)
         print(f"Tokenizer files successfully saved to: {save_dir}")
 
-    def load(self, model_dir: str):
+    def load(self, tokenizer_config_dir: str):
         """
         Loads the tokenizer from the specified directory.
         """
-        if not os.path.exists(model_dir):
-            raise FileNotFoundError(f"Directory {model_dir} does not exist.")
+        if not os.path.exists(tokenizer_config_dir):
+            raise FileNotFoundError(f"Directory {tokenizer_config_dir} does not exist.")
 
-        self.tokenizer = PreTrainedTokenizerFast.from_pretrained(model_dir)
-        print(f"Tokenizer successfully loaded from: {model_dir}")
+        self.tokenizer = PreTrainedTokenizerFast.from_pretrained(tokenizer_config_dir)
+        print(f"Tokenizer successfully loaded from: {tokenizer_config_dir}")
 
     def save_vocabulary(self, file_path: str):
         """
