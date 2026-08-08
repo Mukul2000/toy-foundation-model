@@ -4,7 +4,7 @@ from dataclasses import dataclass
 @dataclass
 class TrainArgs:
     batch_size: int = 8
-    max_steps: int = 1000
+    max_steps: int = 30000 
     lr: float = 6e-4
     warmup_steps: int = 100
     weight_decay: float = 0.1
